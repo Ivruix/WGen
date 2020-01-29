@@ -74,12 +74,15 @@ height_map = [[int(((e - mn) / (mx - mn)) * 255) for e in row] for row in height
 for x in range(len(height_map)):
     for y in range(len(height_map)):
         if height_map[x][y] <= 127:
-            smoothness = height_map[x][y] / (127 * 2)
-            height_map[x][y] = (112 * smoothness, 146 * smoothness, 190 * smoothness)
+            height = height_map[x][y] / (127 * 2)
+            height_map[x][y] = (112 * height,
+                                146 * height,
+                                190 * height)
         else:
-            smoothness = height_map[x][y] / (255 * 2)
-            height_map[x][y] = (160 * ((smoothness + 0.75) ** 1.7 - 0.75), 160 * ((smoothness + 0.75) ** 1.7 - 0.75),
-                                60 * ((smoothness + 0.75) ** 2 - 0.75))
+            height = height_map[x][y] / (255 * 2)
+            height_map[x][y] = (160 * ((height + 0.75) ** 1.7 - 0.75),
+                                160 * ((height + 0.75) ** 1.7 - 0.75),
+                                60 * ((height + 0.75) ** 2 - 0.75))
 
 im = Image.fromarray(array(height_map).astype('uint8')).convert('RGB')
 im.save('generated.png', 'PNG')
